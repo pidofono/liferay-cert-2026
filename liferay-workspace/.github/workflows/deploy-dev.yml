@@ -1,0 +1,45 @@
+name: Deploy DEV
+
+on:
+  push:
+    branches: [ develop ]
+
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Grant execute permission
+        run: chmod +x gradlew
+
+      - name: Build modules
+        run: ./gradlew clean build --no-daemon
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEV_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p "${{ secrets.DEV_SSH_PORT }}" "${{ secrets.DEV_SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload OSGi modules
+        run: |
+          find modules -path "*/build/libs/*.jar" -type f \
+            ! -name "*-sources.jar" ! -name "*-javadoc.jar" \
+            -exec scp -P "${{ secrets.DEV_SSH_PORT }}" {} \
+            "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}:${{ secrets.DEV_LIFERAY_HOME }}/osgi/modules/" \;
