@@ -1,0 +1,10 @@
+apiDir: "../ai-cert-api/src/main/java"
+apiPackagePath: "com.liferaycert.ai"
+application:
+    baseURI: "/ai-cert"
+    className: "AiCertApplication"
+    name: "AiCert"
+author: "pablo.iglesias"
+clientDir: "../ai-cert-client/src/main/java"
+javaEEPackage: "jakarta"
+testDir: "../ai-cert-test/src/testIntegration/java"

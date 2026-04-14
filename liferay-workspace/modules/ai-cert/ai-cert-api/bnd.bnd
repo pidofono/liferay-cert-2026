@@ -1,0 +1,6 @@
+Bundle-Name: ai-cert-api
+Bundle-SymbolicName: com.liferaycert.ai.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferaycert.ai.dto.v1_0,\
+	com.liferaycert.ai.resource.v1_0

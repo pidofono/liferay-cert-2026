@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+    license:
+        name: "Apache 2.0"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    title: AiCert API
+    version: v1.0
+paths:
+    /ask:
+        post:
+            operationId: postAsk
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/AiAskRequest"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/AiAskRequest"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/AiAskResponse"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/AiAskResponse"
+
+components:
+    schemas:
+        AiAskRequest:
+            properties:
+                question:
+                    type: string
+            required:
+                - question
+            type: object
+        AiAskResponse:
+            properties:
+                answer:
+                    type: string
+            type: object
