@@ -9,6 +9,7 @@ fi
 MODULE_NAME="$1"
 REMOTE_USER="pi"
 REMOTE_HOST="192.168.1.43"
+#REMOTE_HOST="100.75.215.57"
 REMOTE_LIFERAY_HOME="/home/pi/servers/liferay-dxp"
 
 echo "==> Build de ${MODULE_NAME}"
